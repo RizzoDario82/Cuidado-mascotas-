@@ -1,1 +1,218 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cuidado-mascotas</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f8f5;
+      color: #24352a;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2e7d5b, #58b879);
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+      border-radius: 0 0 28px 28px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .welcome {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .welcome h2 {
+      color: #2e7d5b;
+      margin-bottom: 10px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px 12px;
+      text-align: center;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .icon {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      color: #2e7d5b;
+      font-size: 17px;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 15px;
+      background: #e8f6ed;
+      color: #236341;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #718078;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🐾 Cuidado-mascotas</h1>
+    <p>Todo el cuidado de tu mascota en un solo lugar</p>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <h2>¡Bienvenido! 🐶🐱</h2>
+      <p>
+        Una nueva forma de encontrar servicios, cuidadores
+        y soluciones para el bienestar de nuestros compañeros.
+      </p>
+    </section>
+
+    <section class="cards">
+
+      <div class="card" onclick="mostrarMensaje('Mascotas')">
+        <div class="icon">🐕</div>
+        <h3>Mis mascotas</h3>
+      </div>
+
+      <div class="card" onclick="mostrarMensaje('Servicios')">
+        <div class="icon">🩺</div>
+        <h3>Servicios</h3>
+      </div>
+
+      <div class="card" onclick="mostrarMensaje('Cuidadores')">
+        <div class="icon">❤️</div>
+        <h3>Cuidadores</h3>
+      </div>
+
+      <div class="card" onclick="mostrarMensaje('Mensajes')">
+        <div class="icon">💬</div>
+        <h3>Mensajes</h3>
+      </div>
+
+    </section>
+
+    <div id="estado" class="status">
+      🔄 Conectando con Cuidado-mascotas...
+    </div>
+
+  </main>
+
+  <footer>
+    Cuidado-mascotas © 2026<br>
+    Una aplicación creada para quienes aman a sus mascotas ❤️
+  </footer>
+
+  <script>
+
+    const SUPABASE_URL = "https://ljcmofbngyitgdzlhdmh.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_zbKkTf5N2V59OwBgj_M2XQ_lsDnj2P0";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    async function comprobarConexion() {
+
+      const estado = document.getElementById("estado");
+
+      try {
+
+        const { error } =
+          await supabaseClient
+            .from("mascotas")
+            .select("id")
+            .limit(1);
+
+        if (error) {
+          estado.innerHTML =
+            "⚠️ Aplicación cargada. Base de datos pendiente de configuración.";
+        } else {
+          estado.innerHTML =
+            "✅ Conectado correctamente con Supabase.";
+        }
+
+      } catch (error) {
+
+        estado.innerHTML =
+          "⚠️ Aplicación funcionando correctamente.";
+
+      }
+    }
+
+    function mostrarMensaje(seccion) {
+
+      alert(
+        "🐾 " + seccion +
+        "\n\nEsta sección será desarrollada en la siguiente etapa."
+      );
+
+    }
+
+    comprobarConexion();
+
+  </script>
+
+</body>
+</html>
