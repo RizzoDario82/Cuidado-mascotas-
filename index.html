@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10251d">
+<title>Cuidado Mascotas</title>
+<style>
+:root{--bg:#07110d;--card:#102019;--text:#f5fff9;--muted:#b7c9c0;--accent:#54d39a;--line:#254137}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}.wrap{max-width:1100px;margin:auto;padding:0 20px}
+header{position:sticky;top:0;z-index:5;background:rgba(7,17,13,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{height:68px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.paw{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#2e8f69;font-size:22px}.navlinks{display:flex;gap:22px;color:var(--muted);font-size:14px}
+.hero{padding:70px 0 50px;background:radial-gradient(circle at 85% 15%,#1d4b39 0,transparent 35%),linear-gradient(145deg,#07110d,#0d1d16)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.badge{display:inline-flex;padding:8px 13px;border:1px solid #32664f;border-radius:999px;color:var(--accent);background:#0d2118;font-size:13px;font-weight:700}
+h1{font-size:clamp(42px,7vw,72px);line-height:.98;margin:20px 0}h1 span{color:var(--accent)}
+.hero p{font-size:18px;line-height:1.6;color:var(--muted);max-width:650px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-block;padding:14px 20px;border-radius:14px;border:1px solid var(--line);font-weight:800;cursor:pointer}.primary{background:var(--accent);color:#062016;border-color:var(--accent)}
+.pet-card{background:linear-gradient(160deg,#173328,#0c1b15);border:1px solid #315746;border-radius:30px;padding:25px;box-shadow:0 25px 80px rgba(0,0,0,.35)}
+.pet-art{height:300px;border-radius:24px;background:linear-gradient(145deg,#245640,#0c1c15);display:grid;place-items:center;font-size:100px}
+.pet-card h3{margin:18px 0 5px}.pet-card p{margin:0;color:var(--muted)}
+section{padding:60px 0}.section-title{font-size:32px;margin:0 0 10px}.section-sub{color:var(--muted);margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.icon{font-size:30px}.card h3{margin:12px 0 8px}.card p{color:var(--muted);line-height:1.5;margin:0}
+.cta{background:linear-gradient(135deg,#153b2d,#0c2118);border:1px solid #315c48;border-radius:28px;padding:35px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}
+.notice{display:none;position:fixed;left:18px;right:18px;bottom:18px;padding:15px 18px;border-radius:15px;background:#18372a;border:1px solid #4e9f78;color:#effff7;z-index:20}
+@media(max-width:800px){.hero-grid{grid-template-columns:1fr}.navlinks{display:none}.grid{grid-template-columns:1fr}.pet-art{height:230px}section{padding:45px 0}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+<a class="brand" href="#"><span class="paw">🐾</span>Cuidado Mascotas</a>
+<div class="navlinks"><a href="#servicios">Servicios</a><a href="#bienestar">Bienestar</a><a href="#nosotros">Nosotros</a></div>
+<a class="btn primary" href="#empezar">Empezar</a>
+</nav></div></header>
+<main>
+<section class="hero"><div class="wrap hero-grid"><div>
+<span class="badge">🐾 Una nueva forma de cuidar</span>
+<h1>Tu mascota merece <span>lo mejor.</span></h1>
+<p>Conecta con servicios, cuidadores y soluciones pensadas para el bienestar de tus compañeros de vida. Todo en un solo lugar.</p>
+<div class="actions"><a class="btn primary" href="#servicios">Explorar servicios</a><a class="btn" href="#empezar">Quiero ser parte</a></div>
+</div><div class="pet-card"><div class="pet-art">🐶</div><h3>Cuidado con confianza</h3><p>Una plataforma creada para unir familias, mascotas y profesionales.</p></div></div></section>
+<section id="servicios"><div class="wrap"><h2 class="section-title">Todo para su bienestar</h2><p class="section-sub">La primera versión de nuestra plataforma comienza aquí.</p>
+<div class="grid">
+<article class="card"><div class="icon">🏠</div><h3>Cuidadores</h3><p>Encuentra personas que puedan acompañar y cuidar a tu mascota.</p></article>
+<article class="card"><div class="icon">🩺</div><h3>Bienestar</h3><p>Accede a servicios y profesionales enfocados en su calidad de vida.</p></article>
+<article class="card"><div class="icon">🦮</div><h3>Paseos</h3><p>Opciones para paseos y actividades que mantengan a tu mascota feliz.</p></article>
+<article class="card"><div class="icon">⭐</div><h3>Reseñas</h3><p>Consulta experiencias de otros usuarios antes de elegir un servicio.</p></article>
+<article class="card"><div class="icon">💬</div><h3>Mensajes</h3><p>Comunícate de manera sencilla con los prestadores de servicios.</p></article>
+<article class="card"><div class="icon">🔔</div><h3>Notificaciones</h3><p>Recibe avisos importantes sobre reservas y actividades.</p></article>
+</div></div></section>
+<section id="bienestar"><div class="wrap"><div class="cta"><h2 class="section-title">Una comunidad que cuida</h2><p class="section-sub">Cuidado Mascotas está diseñada para crecer contigo: perfiles, servicios, reservas, reseñas, mensajes y mucho más.</p><a class="btn primary" href="#empezar">Conocer la plataforma</a></div></div></section>
+<section id="nosotros"><div class="wrap"><h2 class="section-title">Nuestra misión</h2><p class="section-sub">Crear un espacio confiable, cercano y fácil de usar donde el bienestar de cada mascota sea la prioridad.</p></div></section>
+<section id="empezar"><div class="wrap"><div class="card"><h2 class="section-title">Estamos construyendo algo especial 🐾</h2><p class="section-sub">Esta es la primera versión visual. En los siguientes pasos conectaremos usuarios, servicios y datos con Supabase.</p><button class="btn primary" onclick="aviso()">Quiero comenzar</button></div></div></section>
+</main>
+<footer><div class="wrap">© 2026 Cuidado Mascotas · Proyecto de Dario Rizo</div></footer>
+<div id="notice" class="notice">🐾 ¡Excelente! Tu plataforma Cuidado Mascotas está tomando forma.</div>
+<script>function aviso(){const n=document.getElementById('notice');n.style.display='block';setTimeout(()=>n.style.display='none',3500)}</script>
+</body>
+</html>
