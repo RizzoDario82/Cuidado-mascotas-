@@ -214,5 +214,201 @@
 
   </script>
 
+<!-- ============================= -->
+<!-- PANEL DE ADMINISTRACIÓN PETCARE -->
+<!-- ============================= -->
+
+<style>
+#adminPanel {
+  display: none;
+  margin: 25px 15px;
+  padding: 20px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.10);
+}
+
+.admin-title {
+  text-align: center;
+  color: #287a5d;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.admin-subtitle {
+  text-align: center;
+  color: #667;
+  margin-bottom: 20px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-card {
+  border: none;
+  background: #f3faf6;
+  border-radius: 18px;
+  padding: 18px 8px;
+  text-align: center;
+  color: #287a5d;
+  font-weight: bold;
+  font-size: 15px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.06);
+}
+
+.admin-icon {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.admin-stats {
+  margin-top: 18px;
+  padding: 15px;
+  background: linear-gradient(135deg,#2f8f6b,#55b77d);
+  color: white;
+  border-radius: 18px;
+  text-align: center;
+}
+
+#adminButton {
+  display: none;
+  margin: 20px auto;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 30px;
+  background: #287a5d;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,.15);
+}
+</style>
+
+<button id="adminButton" onclick="abrirAdministracion()">
+  ⚙️ Administración
+</button>
+
+<section id="adminPanel">
+
+  <div class="admin-title">
+    🛡️ Panel de Administración
+  </div>
+
+  <div class="admin-subtitle">
+    Control general de Cuidado-mascotas
+  </div>
+
+  <div class="admin-grid">
+
+    <button class="admin-card" onclick="adminSeccion('Usuarios')">
+      <span class="admin-icon">👥</span>
+      Usuarios
+    </button>
+
+    <button class="admin-card" onclick="adminSeccion('Mascotas')">
+      <span class="admin-icon">🐶🐱</span>
+      Mascotas
+    </button>
+
+    <button class="admin-card" onclick="adminSeccion('Servicios')">
+      <span class="admin-icon">🩺</span>
+      Servicios
+    </button>
+
+    <button class="admin-card" onclick="adminSeccion('Mensajes')">
+      <span class="admin-icon">💬</span>
+      Mensajes
+    </button>
+
+    <button class="admin-card" onclick="adminSeccion('Notificaciones')">
+      <span class="admin-icon">🔔</span>
+      Notificaciones
+    </button>
+
+    <button class="admin-card" onclick="adminSeccion('Reseñas')">
+      <span class="admin-icon">⭐</span>
+      Reseñas
+    </button>
+
+  </div>
+
+  <div class="admin-stats">
+    📊 <strong>Centro de control</strong><br>
+    Desde aquí podrás administrar toda la aplicación.
+  </div>
+
+</section>
+
+<script>
+async function verificarAdministrador() {
+
+  try {
+
+    const { data: { user } } =
+      await supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const { data: perfil, error } =
+      await supabaseClient
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+    if (error) {
+      console.log("No se pudo verificar el administrador");
+      return;
+    }
+
+    if (perfil && perfil.role === "owner") {
+
+      document.getElementById("adminButton").style.display = "block";
+
+    }
+
+  } catch (error) {
+
+    console.log("Verificación de administrador:", error);
+
+  }
+}
+
+function abrirAdministracion() {
+
+  const panel = document.getElementById("adminPanel");
+
+  if (panel.style.display === "none" ||
+      panel.style.display === "") {
+
+    panel.style.display = "block";
+
+    panel.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  } else {
+
+    panel.style.display = "none";
+
+  }
+}
+
+function adminSeccion(seccion) {
+
+  alert(
+    "🐾 " + seccion +
+    "\n\nEsta sección será conectada con la base de datos de PetCare."
+  );
+
+}
+
+verificarAdministrador();
+</script>
 </body>
 </html>
