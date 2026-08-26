@@ -468,43 +468,161 @@ verificarAdministrador();
       `;
     }
 
-    async function guardarMascota(event) {
-      event.preventDefault();
+    <script>
+    // ----------------------------------------------------
+    // 1. SECCIÓN: MIS MASCOTAS
+    // ----------------------------------------------------
+    async function abrirMisMascotas() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando mascotas...</p>";
+
+      const { data: mascotas, error } = await supabase.from('mascotas').select('*');
+
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `
+        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
+          <h3>🐾 Mis Mascotas</h3>
+          <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">+ Agregar Mascota</button>
+          <div id="formularioModulo"></div>
+      `;
+
+      if (!mascotas || mascotas.length === 0) {
+        html += "<p>No hay mascotas registradas.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        mascotas.forEach(m => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'><strong>${m.nombre}</strong> - ${m.especie || 'Mascota'} (${m.raza || 'Sin raza'})</li>`;
+        });
+        html += "</ul>";
+      }
+      html += "</div>";
+      contenedor.innerHTML = html;
+    }
+
+    function mostrarFormularioMascota() {
+      document.getElementById("formularioModulo").innerHTML = `
+        <form onsubmit="guardarMascota(event)" style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
+          <input type="text" id="nombreMascota" placeholder="Nombre" required style="padding: 8px;" />
+          <input type="text" id="especieMascota" placeholder="Especie (Ej: Perro, Gato)" required style="padding: 8px;" />
+          <input type="text" id="razaMascota" placeholder="Raza" style="padding: 8px;" />
+          <button type="submit" style="background: #1b5e20; color: white; border: none; padding: 8px; border-radius: 5px;">Guardar</button>
+        </form>`;
+    }
+
+    async function guardarMascota(e) {
+      e.preventDefault();
       const nombre = document.getElementById("nombreMascota").value;
       const especie = document.getElementById("especieMascota").value;
       const raza = document.getElementById("razaMascota").value;
 
-      const { error } = await supabase
-        .from('mascotas')
-        .insert([{ nombre, especie, raza }]);
+      const { error } = await supabase.from('mascotas').insert([{ nombre, especie, raza }]);
+      if (error) alert("Error: " + error.message);
+      else { alert("¡Mascota agregada!"); abrirMisMascotas(); }
+    }
 
-      if (error) {
-        alert("Error al guardar la mascota: " + error.message);
+    // ----------------------------------------------------
+    // 2. SECCIÓN: SERVICIOS
+    // ----------------------------------------------------
+    async function abrirServicios() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando servicios...</p>";
+
+      const { data: servicios, error } = await supabase.from('servicios').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `
+        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
+          <h3>🩺 Servicios Disponibles</h3>
+      `;
+
+      if (!servicios || servicios.length === 0) {
+        html += "<p>No hay servicios registrados por ahora.</p>";
       } else {
-        alert("¡Mascota registrada correctamente!");
-        abrirMisMascotas();
+        html += "<ul style='list-style: none; padding: 0;'>";
+        servicios.forEach(s => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'><strong>${s.nombre || s.titulo}</strong><br><small>${s.descripcion || ''}</small></li>`;
+        });
+        html += "</ul>";
       }
+      html += "</div>";
+      contenedor.innerHTML = html;
     }
 
-    function abrirServicios() {
-      alert("Sección de Servicios lista para configurarse.");
+    // ----------------------------------------------------
+    // 3. SECCIÓN: CUIDADORES
+    // ----------------------------------------------------
+    async function abrirCuidadores() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando cuidadores...</p>";
+
+      const { data: cuidadores, error } = await supabase.from('profiles').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `
+        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
+          <h3>❤️ Cuidadores Verificados</h3>
+      `;
+
+      if (!cuidadores || cuidadores.length === 0) {
+        html += "<p>No hay cuidadores registrados.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        cuidadores.forEach(c => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'><strong>${c.nombre || c.email}</strong> (${c.rol || 'Usuario'})</li>`;
+        });
+        html += "</ul>";
+      }
+      html += "</div>";
+      contenedor.innerHTML = html;
     }
 
-    function abrirCuidadores() {
-      alert("Sección de Cuidadores lista para configurarse.");
+    // ----------------------------------------------------
+    // 4. SECCIÓN: MENSAJES
+    // ----------------------------------------------------
+    async function abrirMensajes() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando mensajes...</p>";
+
+      const { data: mensajes, error } = await supabase.from('mensajes').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `
+        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
+          <h3>💬 Mensajes y Notificaciones</h3>
+      `;
+
+      if (!mensajes || mensajes.length === 0) {
+        html += "<p>No tienes mensajes nuevos.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        mensajes.forEach(m => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'>${m.contenido || m.texto}</li>`;
+        });
+        html += "</ul>";
+      }
+      html += "</div>";
+      contenedor.innerHTML = html;
     }
 
-    function abrirMensajes() {
-      alert("Sección de Mensajes lista para configurarse.");
-    }
-
-    function crearContenedorModulo() {
+    // ----------------------------------------------------
+    // FUNCIONES AUXILIARES
+    // ----------------------------------------------------
+    function obtenerContenedor() {
       let cont = document.getElementById("adminContenido");
       if (!cont) {
         cont = document.createElement("div");
         cont.id = "adminContenido";
         document.body.appendChild(cont);
       }
+      cont.style.display = "block";
+      cont.scrollIntoView({ behavior: "smooth" });
       return cont;
     }
+
+    function mostrarError(cont, msg) {
+      cont.innerHTML = `<p style="color:red; background:#fee; padding:10px; border-radius:5px;">❌ Error: ${msg}</p>`;
+    }
+</script>
+
 </script>
