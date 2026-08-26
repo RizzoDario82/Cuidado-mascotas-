@@ -124,29 +124,29 @@
 </section>
 
 
-    <section class="cards">
+    <section class="cards" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; position: relative; z-index: 9999;">
+  <button onclick="alert('Abriendo Mascotas...')" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
+    <div style="font-size: 2rem;">🐶</div>
+    <strong style="display: block; margin-top: 8px; color: #333;">Mis mascotas</strong>
+  </button>
 
-  <div class="card" onclick="abrirMisMascotas()">
-    <div class="icon">🐕</div>
-    <h3>Mis mascotas</h3>
-  </div>
+  <button onclick="alert('Abriendo Servicios...')" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
+    <div style="font-size: 2rem;">🩺</div>
+    <strong style="display: block; margin-top: 8px; color: #333;">Servicios</strong>
+  </button>
 
-  <div class="card" onclick="abrirServicios()">
-    <div class="icon">🩺</div>
-    <h3>Servicios</h3>
-  </div>
+  <button onclick="alert('Abriendo Cuidadores...')" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
+    <div style="font-size: 2rem;">❤️</div>
+    <strong style="display: block; margin-top: 8px; color: #333;">Cuidadores</strong>
+  </button>
 
-  <div class="card" onclick="abrirCuidadores()">
-    <div class="icon">❤️</div>
-    <h3>Cuidadores</h3>
-  </div>
-
-  <div class="card" onclick="abrirMensajes()">
-    <div class="icon">💬</div>
-    <h3>Mensajes</h3>
-  </div>
-
+  <button onclick="alert('Abriendo Mensajes...')" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
+    <div style="font-size: 2rem;">💬</div>
+    <strong style="display: block; margin-top: 8px; color: #333;">Mensajes</strong>
+  </button>
 </section>
+
+
 
 <div id="estado" class ="status">
   conectando con Cuidado-mascotas ...
