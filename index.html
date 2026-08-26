@@ -470,20 +470,132 @@ verificarAdministrador();
     }
 
       <script>
-  // Prueba de diagnóstico inmediata
-  function abrirMisMascotas() {
-    alert("¡Funciona Mis Mascotas!");
-  }
+    function obtenerContenedor() {
+      let cont = document.getElementById("adminContenido");
+      if (!cont) {
+        cont = document.createElement("div");
+        cont.id = "adminContenido";
+        document.body.appendChild(cont);
+      }
+      cont.style.display = "block";
+      cont.style.padding = "20px";
+      cont.style.margin = "20px auto";
+      cont.style.maxWidth = "600px";
+      cont.style.background = "#ffffff";
+      cont.style.borderRadius = "10px";
+      cont.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
+      cont.style.color = "#333";
+      cont.scrollIntoView({ behavior: "smooth" });
+      return cont;
+    }
 
-  function abrirServicios() {
-    alert("¡Funciona Servicios!");
-  }
+    function mostrarError(cont, msg) {
+      cont.innerHTML = `<p style="color:red; background:#fee; padding:10px; border-radius:5px;">❌ Error: ${msg}</p>`;
+    }
 
-  function abrirCuidadores() {
-    alert("¡Funciona Cuidadores!");
-  }
+    async function abrirMisMascotas() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando mascotas...</p>";
 
-  function abrirMensajes() {
-    alert("¡Funciona Mensajes!");
-  }
+      const { data: mascotas, error } = await supabase.from('mascotas').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `
+        <h3>🐾 Mis Mascotas</h3>
+        <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">+ Agregar Mascota</button>
+        <div id="formularioModulo"></div>
+      `;
+
+      if (!mascotas || mascotas.length === 0) {
+        html += "<p>No hay mascotas registradas.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        mascotas.forEach(m => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'><strong>${m.nombre}</strong> - ${m.especie || 'Mascota'} (${m.raza || 'Sin raza'})</li>`;
+        });
+        html += "</ul>";
+      }
+      contenedor.innerHTML = html;
+    }
+
+    function mostrarFormularioMascota() {
+      document.getElementById("formularioModulo").innerHTML = `
+        <form onsubmit="guardarMascota(event)" style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
+          <input type="text" id="nombreMascota" placeholder="Nombre" required style="padding: 8px;" />
+          <input type="text" id="especieMascota" placeholder="Especie (Ej: Perro, Gato)" required style="padding: 8px;" />
+          <input type="text" id="razaMascota" placeholder="Raza" style="padding: 8px;" />
+          <button type="submit" style="background: #1b5e20; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer;">Guardar</button>
+        </form>`;
+    }
+
+    async function guardarMascota(e) {
+      e.preventDefault();
+      const nombre = document.getElementById("nombreMascota").value;
+      const especie = document.getElementById("especieMascota").value;
+      const raza = document.getElementById("razaMascota").value;
+
+      const { error } = await supabase.from('mascotas').insert([{ nombre, especie, raza }]);
+      if (error) alert("Error: " + error.message);
+      else { alert("¡Mascota agregada!"); abrirMisMascotas(); }
+    }
+
+    async function abrirServicios() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando servicios...</p>";
+
+      const { data: servicios, error } = await supabase.from('servicios').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `<h3>🩺 Servicios Disponibles</h3>`;
+      if (!servicios || servicios.length === 0) {
+        html += "<p>No hay servicios registrados por ahora.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        servicios.forEach(s => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'><strong>${s.nombre || s.titulo}</strong><br><small>${s.descripcion || ''}</small></li>`;
+        });
+        html += "</ul>";
+      }
+      contenedor.innerHTML = html;
+    }
+
+    async function abrirCuidadores() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando cuidadores...</p>";
+
+      const { data: cuidadores, error } = await supabase.from('profiles').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `<h3>❤️ Cuidadores Verificados</h3>`;
+      if (!cuidadores || cuidadores.length === 0) {
+        html += "<p>No hay cuidadores registrados.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        cuidadores.forEach(c => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'><strong>${c.nombre || c.email}</strong> (${c.rol || 'Usuario'})</li>`;
+        });
+        html += "</ul>";
+      }
+      contenedor.innerHTML = html;
+    }
+
+    async function abrirMensajes() {
+      const contenedor = obtenerContenedor();
+      contenedor.innerHTML = "<p>⏳ Cargando mensajes...</p>";
+
+      const { data: mensajes, error } = await supabase.from('mensajes').select('*');
+      if (error) return mostrarError(contenedor, error.message);
+
+      let html = `<h3>💬 Mensajes y Notificaciones</h3>`;
+      if (!mensajes || mensajes.length === 0) {
+        html += "<p>No tienes mensajes nuevos.</p>";
+      } else {
+        html += "<ul style='list-style: none; padding: 0;'>";
+        mensajes.forEach(m => {
+          html += `<li style='border-bottom: 1px solid #eee; padding: 8px 0;'>${m.contenido || m.texto}</li>`;
+        });
+        html += "</ul>";
+      }
+      contenedor.innerHTML = html;
+    }
 </script>
