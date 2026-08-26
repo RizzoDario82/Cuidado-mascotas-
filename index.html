@@ -468,7 +468,33 @@ verificarAdministrador();
       `;
     }
 
-    <script>
+<script>
+    // ----------------------------------------------------
+    // FUNCIÓN AUXILIAR DE CONTENEDOR
+    // ----------------------------------------------------
+    function obtenerContenedor() {
+      let cont = document.getElementById("adminContenido");
+      if (!cont) {
+        cont = document.createElement("div");
+        cont.id = "adminContenido";
+        document.body.appendChild(cont);
+      }
+      cont.style.display = "block";
+      cont.style.padding = "20px";
+      cont.style.margin = "20px auto";
+      cont.style.maxWidth = "600px";
+      cont.style.background = "#ffffff";
+      cont.style.borderRadius = "10px";
+      cont.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
+      cont.style.color = "#333";
+      cont.scrollIntoView({ behavior: "smooth" });
+      return cont;
+    }
+
+    function mostrarError(cont, msg) {
+      cont.innerHTML = `<p style="color:red; background:#fee; padding:10px; border-radius:5px;">❌ Error: ${msg}</p>`;
+    }
+
     // ----------------------------------------------------
     // 1. SECCIÓN: MIS MASCOTAS
     // ----------------------------------------------------
@@ -481,10 +507,9 @@ verificarAdministrador();
       if (error) return mostrarError(contenedor, error.message);
 
       let html = `
-        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
-          <h3>🐾 Mis Mascotas</h3>
-          <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">+ Agregar Mascota</button>
-          <div id="formularioModulo"></div>
+        <h3>🐾 Mis Mascotas</h3>
+        <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">+ Agregar Mascota</button>
+        <div id="formularioModulo"></div>
       `;
 
       if (!mascotas || mascotas.length === 0) {
@@ -496,7 +521,6 @@ verificarAdministrador();
         });
         html += "</ul>";
       }
-      html += "</div>";
       contenedor.innerHTML = html;
     }
 
@@ -506,7 +530,7 @@ verificarAdministrador();
           <input type="text" id="nombreMascota" placeholder="Nombre" required style="padding: 8px;" />
           <input type="text" id="especieMascota" placeholder="Especie (Ej: Perro, Gato)" required style="padding: 8px;" />
           <input type="text" id="razaMascota" placeholder="Raza" style="padding: 8px;" />
-          <button type="submit" style="background: #1b5e20; color: white; border: none; padding: 8px; border-radius: 5px;">Guardar</button>
+          <button type="submit" style="background: #1b5e20; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer;">Guardar</button>
         </form>`;
     }
 
@@ -531,11 +555,7 @@ verificarAdministrador();
       const { data: servicios, error } = await supabase.from('servicios').select('*');
       if (error) return mostrarError(contenedor, error.message);
 
-      let html = `
-        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
-          <h3>🩺 Servicios Disponibles</h3>
-      `;
-
+      let html = `<h3>🩺 Servicios Disponibles</h3>`;
       if (!servicios || servicios.length === 0) {
         html += "<p>No hay servicios registrados por ahora.</p>";
       } else {
@@ -545,7 +565,6 @@ verificarAdministrador();
         });
         html += "</ul>";
       }
-      html += "</div>";
       contenedor.innerHTML = html;
     }
 
@@ -559,11 +578,7 @@ verificarAdministrador();
       const { data: cuidadores, error } = await supabase.from('profiles').select('*');
       if (error) return mostrarError(contenedor, error.message);
 
-      let html = `
-        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
-          <h3>❤️ Cuidadores Verificados</h3>
-      `;
-
+      let html = `<h3>❤️ Cuidadores Verificados</h3>`;
       if (!cuidadores || cuidadores.length === 0) {
         html += "<p>No hay cuidadores registrados.</p>";
       } else {
@@ -573,7 +588,6 @@ verificarAdministrador();
         });
         html += "</ul>";
       }
-      html += "</div>";
       contenedor.innerHTML = html;
     }
 
@@ -587,11 +601,7 @@ verificarAdministrador();
       const { data: mensajes, error } = await supabase.from('mensajes').select('*');
       if (error) return mostrarError(contenedor, error.message);
 
-      let html = `
-        <div style="background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
-          <h3>💬 Mensajes y Notificaciones</h3>
-      `;
-
+      let html = `<h3>💬 Mensajes y Notificaciones</h3>`;
       if (!mensajes || mensajes.length === 0) {
         html += "<p>No tienes mensajes nuevos.</p>";
       } else {
@@ -601,28 +611,7 @@ verificarAdministrador();
         });
         html += "</ul>";
       }
-      html += "</div>";
       contenedor.innerHTML = html;
     }
-
-    // ----------------------------------------------------
-    // FUNCIONES AUXILIARES
-    // ----------------------------------------------------
-    function obtenerContenedor() {
-      let cont = document.getElementById("adminContenido");
-      if (!cont) {
-        cont = document.createElement("div");
-        cont.id = "adminContenido";
-        document.body.appendChild(cont);
-      }
-      cont.style.display = "block";
-      cont.scrollIntoView({ behavior: "smooth" });
-      return cont;
-    }
-
-    function mostrarError(cont, msg) {
-      cont.innerHTML = `<p style="color:red; background:#fee; padding:10px; border-radius:5px;">❌ Error: ${msg}</p>`;
-    }
 </script>
-
 
