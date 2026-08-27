@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Cuidado-mascotas</title>
-
+  
+  <!-- CDN de Supabase CDN correctamente cerrado -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -16,460 +16,132 @@
       padding: 0;
       font-family: Arial, sans-serif;
     }
-
     body {
       background: #f4f8f5;
       color: #24352a;
+      padding-bottom: 40px;
     }
-
     header {
-      background: linear-gradient(135deg, #2e7d5b, #58b879);
+      background: linear-gradient(135deg, #2e7d32, #1b5e20);
       color: white;
-      padding: 28px 20px;
       text-align: center;
-      border-radius: 0 0 28px 28px;
-    }
-
-    header h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      font-size: 15px;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: auto;
       padding: 20px;
+      font-size: 1.2rem;
     }
-
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 15px;
+    }
     .welcome {
+      text-align: center;
       background: white;
-      border-radius: 20px;
-      padding: 22px;
-      margin-top: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-
-    .welcome h2 {
-      color: #2e7d5b;
+    .welcome img {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 12px;
       margin-bottom: 10px;
     }
-
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 15px;
       margin-top: 20px;
     }
-
-    .card {
+    .card-btn {
       background: white;
-      padding: 22px 12px;
-      text-align: center;
-      border-radius: 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      border: 1px solid #e0e0e0;
+      padding: 20px 10px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: 0.2s;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: transform 0.1s ease;
     }
-
-    .card:hover {
-      transform: translateY(-3px);
+    .card-btn:active {
+      transform: scale(0.98);
+      background: #f0f7f2;
     }
-
-    .icon {
-      font-size: 38px;
-      margin-bottom: 10px;
+    .card-btn .icon {
+      font-size: 2.2rem;
     }
-
-    .card h3 {
-      color: #2e7d5b;
-      font-size: 17px;
+    .card-btn h3 {
+      font-size: 0.95rem;
+      margin-top: 8px;
+      color: #2e7d32;
     }
-
     .status {
+      text-align: center;
       margin-top: 20px;
-      padding: 15px;
-      border-radius: 15px;
-      background: #e8f6ed;
-      color: #236341;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 15px;
-      color: #718078;
-      font-size: 13px;
+      padding: 10px;
+      font-size: 0.85rem;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 8px;
     }
   </style>
 </head>
-
 <body>
 
   <header>
-    <h1>🐾 Cuidado-mascotas</h1>
-    <p>Todo el cuidado de tu mascota en un solo lugar</p>
+    🐾 <strong>Cuidado-mascotas</strong>
+    <p style="font-size: 0.8rem; opacity: 0.9;">Todo el cuidado de tu mascota en un solo lugar</p>
   </header>
 
   <main class="container">
+    <section class="welcome">
+      <img src="1787704794272.png" alt="PetCare Portada">
+      <h2>¡Bienvenido a PetCare! 🐶🐱</h2>
+      <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+        Cuidar es amar. Encuentra servicios, cuidadores y soluciones para el bienestar de tu mascota.
+      </p>
+    </section>
 
-    <section class="welcome" style="text-align: center;">
-  <img src="1787704794272.png" alt="PetCare Portada" style="width: 100%; max-width: 400px; border-radius: 15px; margin-bottom: 15px;">
-  <h2>¡Bienvenido a PetCare! 🐶🐱</h2>
-  <p>Cuidar es amar. Encuentra servicios, cuidadores y soluciones para el bienestar de tu mascota.</p>
-</section>
+    <!-- Botones interactivos -->
+    <section class="cards">
+      <button class="card-btn" onclick="abrirMisMascotas()">
+        <div class="icon">🐶</div>
+        <h3>Mis mascotas</h3>
+      </button>
 
+      <button class="card-btn" onclick="abrirServicios()">
+        <div class="icon">🩺</div>
+        <h3>Servicios</h3>
+      </button>
 
-    <section class="cards" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
-  <button onclick="abrirMisMascotas()" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
-    <div style="font-size: 2rem;">🐶</div>
-    <strong style="display: block; margin-top: 8px; color: #333;">Mis mascotas</strong>
-  </button>
+      <button class="card-btn" onclick="abrirCuidadores()">
+        <div class="icon">❤️</div>
+        <h3>Cuidadores</h3>
+      </button>
 
-  <button onclick="abrirServicios()" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
-    <div style="font-size: 2rem;">🩺</div>
-    <strong style="display: block; margin-top: 8px; color: #333;">Servicios</strong>
-  </button>
+      <button class="card-btn" onclick="abrirMensajes()">
+        <div class="icon">💬</div>
+        <h3>Mensajes</h3>
+      </button>
+    </section>
 
-  <button onclick="abrirCuidadores()" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
-    <div style="font-size: 2rem;">❤️</div>
-    <strong style="display: block; margin-top: 8px; color: #333;">Cuidadores</strong>
-  </button>
-
-  <button onclick="abrirMensajes()" style="background: white; border: 1px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center;">
-    <div style="font-size: 2rem;">💬</div>
-    <strong style="display: block; margin-top: 8px; color: #333;">Mensajes</strong>
-  </button>
-</section>
-
-
-
-
-<div id="estado" class ="status">
-  conectando con Cuidado-mascotas ...
-</div>
-    
+    <div id="estado" class="status">
+      🟢 Conectado correctamente con Supabase
+    </div>
   </main>
 
-  <footer>
-    Cuidado-mascotas © 2026<br>
-    Una aplicación creada para quienes aman a sus mascotas ❤️
-  </footer>
-
   <script>
+    // Manejador global para detectar cualquier error visualmente
+    window.onerror = function(msg, url, line) {
+      alert("Error JS: " + msg + " (Línea " + line + ")");
+      return false;
+    };
+
+    // CONEXIÓN A SUPABASE
+    const SUPABASE_URL = "https://aahvlspsndedmsllceze.supabase.co"; 
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhaHZsc3BzbmRlZG1zbGxjZXplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwMzUzNzUsImV4cCI6MjA1NTYxMTM3NX0.B_HInX_BvIsbYvR0e0gVz6Z8S6O-X7874g7M6R76O4Q"; 
+    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-    const SUPABASE_URL = "https://ljcmofbngyitgdzlhdmh.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_zbKkTf5N2V59OwBgj_M2XQ_lsDnj2P0";
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-    async function comprobarConexion() {
-
-      const estado = document.getElementById("estado");
-
-      try {
-
-        const { error } =
-          await supabaseClient
-            .from("mascotas")
-            .select("id")
-            .limit(1);
-
-        if (error) {
-          estado.innerHTML =
-            "⚠️ Aplicación cargada. Base de datos pendiente de configuración.";
-        } else {
-          estado.innerHTML =
-            "✅ Conectado correctamente con Supabase.";
-        }
-
-      } catch (error) {
-
-        estado.innerHTML =
-          "⚠️ Aplicación funcionando correctamente.";
-
-      }
-    }
-
-    function mostrarMensaje(seccion) {
-
-      alert(
-        "🐾 " + seccion +
-        "\n\nEsta sección será desarrollada en la siguiente etapa."
-      );
-
-    }
-
-    comprobarConexion();
-
-  </script>
-
-<!-- ============================= -->
-<!-- PANEL DE ADMINISTRACIÓN PETCARE -->
-<!-- ============================= -->
-
-<style>
-#adminPanel {
-  display: none;
-  margin: 25px 15px;
-  padding: 20px;
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.10);
-}
-
-.admin-title {
-  text-align: center;
-  color: #287a5d;
-  font-size: 25px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.admin-subtitle {
-  text-align: center;
-  color: #667;
-  margin-bottom: 20px;
-}
-
-.admin-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.admin-card {
-  border: none;
-  background: #f3faf6;
-  border-radius: 18px;
-  padding: 18px 8px;
-  text-align: center;
-  color: #287a5d;
-  font-weight: bold;
-  font-size: 15px;
-  box-shadow: 0 3px 10px rgba(0,0,0,.06);
-}
-
-.admin-icon {
-  display: block;
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.admin-stats {
-  margin-top: 18px;
-  padding: 15px;
-  background: linear-gradient(135deg,#2f8f6b,#55b77d);
-  color: white;
-  border-radius: 18px;
-  text-align: center;
-}
-
-#adminButton {
-  display: none;
-  margin: 20px auto;
-  padding: 14px 25px;
-  border: none;
-  border-radius: 30px;
-  background: #287a5d;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0,0,0,.15);
-}
-</style>
-
-<button id="adminButton" onclick="abrirAdministracion()">
-  ⚙️ Administración
-</button>
-
-<section id="adminPanel">
-
-  <div class="admin-title">
-    🛡️ Panel de Administración
-  </div>
-
-  <div class="admin-subtitle">
-    Control general de Cuidado-mascotas
-  </div>
-
-  <div class="admin-grid">
-
-    <button class="admin-card" onclick="adminSeccion('Usuarios')">
-      <span class="admin-icon">👥</span>
-      Usuarios
-    </button>
-
-    <button class="admin-card" onclick="adminSeccion('Mascotas')">
-      <span class="admin-icon">🐶🐱</span>
-      Mascotas
-    </button>
-
-    <button class="admin-card" onclick="adminSeccion('Servicios')">
-      <span class="admin-icon">🩺</span>
-      Servicios
-    </button>
-
-    <button class="admin-card" onclick="adminSeccion('Mensajes')">
-      <span class="admin-icon">💬</span>
-      Mensajes
-    </button>
-
-    <button class="admin-card" onclick="adminSeccion('Notificaciones')">
-      <span class="admin-icon">🔔</span>
-      Notificaciones
-    </button>
-
-    <button class="admin-card" onclick="adminSeccion('Reseñas')">
-      <span class="admin-icon">⭐</span>
-      Reseñas
-    </button>
-
-  </div>
-
-  <div class="admin-stats">
-    📊 <strong>Centro de control</strong><br>
-    Desde aquí podrás administrar toda la aplicación.
-  </div>
-
-</section>
-
-<script>
-async function verificarAdministrador() {
-
-  try {
-
-    const { data: { user } } =
-      await supabaseClient.auth.getUser();
-
-    if (!user) return;
-
-    const { data: perfil, error } =
-      await supabaseClient
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-
-    if (error) {
-      console.log("No se pudo verificar el administrador");
-      return;
-    }
-
-    if (perfil && perfil.role === "owner") {
-
-      document.getElementById("adminButton").style.display = "block";
-
-    }
-
-  } catch (error) {
-
-    console.log("Verificación de administrador:", error);
-
-  }
-}
-
-function abrirAdministracion() {
-
-  const panel = document.getElementById("adminPanel");
-
-  if (panel.style.display === "none" ||
-      panel.style.display === "") {
-
-    panel.style.display = "block";
-
-    panel.scrollIntoView({
-      behavior: "smooth"
-    });
-
-  } else {
-
-    panel.style.display = "none";
-
-  }
-}
-
-function adminSeccion(seccion) {
-
-  alert(
-    "🐾 " + seccion +
-    "\n\nEsta sección será conectada con la base de datos de PetCare."
-  );
-
-}
-
-verificarAdministrador();
-</script>
-</body>
-</html>
-<script>
-    // 1. Funciones para las tarjetas principales de la aplicación
-    async function abrirMisMascotas() {
-      const contenedor = document.getElementById("adminContenido") || crearContenedorModulo();
-      contenedor.style.display = "block";
-      contenedor.innerHTML = "<p>⏳ Cargando tus mascotas...</p>";
-
-      const { data: mascotas, error } = await supabase
-        .from('mascotas')
-        .select('*');
-
-      if (error) {
-        contenedor.innerHTML = `<p style="color:red;">Error al cargar mascotas: ${error.message}</p>`;
-        return;
-      }
-
-      let html = `
-        <div style="background: #ffffff; padding: 15px; border-radius: 10px; margin-top: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333;">
-          <h3>🐾 Mis Mascotas</h3>
-          <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">
-            + Agregar Nueva Mascota
-          </button>
-          <div id="formularioMascota"></div>
-      `;
-
-      if (!mascotas || mascotas.length === 0) {
-        html += "<p>Aún no tienes mascotas registradas.</p>";
-      } else {
-        html += `<ul style="list-style: none; padding: 0;">`;
-        mascotas.forEach(pet => {
-          html += `
-            <li style="border-bottom: 1px solid #eee; padding: 8px 0;">
-              <strong>${pet.nombre}</strong> - ${pet.especie || 'Mascota'} (${pet.raza || 'Sin raza'})
-            </li>`;
-        });
-        html += `</ul>`;
-      }
-
-      html += `</div>`;
-      contenedor.innerHTML = html;
-      contenedor.scrollIntoView({ behavior: "smooth" });
-    }
-
-    function mostrarFormularioMascota() {
-      const divForm = document.getElementById("formularioMascota");
-      divForm.innerHTML = `
-        <form onsubmit="guardarMascota(event)" style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
-          <input type="text" id="nombreMascota" placeholder="Nombre de la mascota" required style="padding: 8px;" />
-          <input type="text" id="especieMascota" placeholder="Especie (Ej: Perro, Gato)" required style="padding: 8px;" />
-          <input type="text" id="razaMascota" placeholder="Raza" style="padding: 8px;" />
-          <button type="submit" style="background: #1b5e20; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer;">
-            Guardar en Supabase
-          </button>
-        </form>
-      `;
-    }
-
-      <script>
     function obtenerContenedor() {
       let cont = document.getElementById("adminContenido");
       if (!cont) {
@@ -478,9 +150,9 @@ verificarAdministrador();
         document.body.appendChild(cont);
       }
       cont.style.display = "block";
-      cont.style.padding = "20px";
+      cont.style.padding = "15px";
       cont.style.margin = "20px auto";
-      cont.style.maxWidth = "600px";
+      cont.style.maxWidth = "570px";
       cont.style.background = "#ffffff";
       cont.style.borderRadius = "10px";
       cont.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
@@ -497,12 +169,14 @@ verificarAdministrador();
       const contenedor = obtenerContenedor();
       contenedor.innerHTML = "<p>⏳ Cargando mascotas...</p>";
 
+      if (!supabase) return mostrarError(contenedor, "Supabase no se ha inicializado.");
+
       const { data: mascotas, error } = await supabase.from('mascotas').select('*');
       if (error) return mostrarError(contenedor, error.message);
 
       let html = `
         <h3>🐾 Mis Mascotas</h3>
-        <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">+ Agregar Mascota</button>
+        <button onclick="mostrarFormularioMascota()" style="background: #2e7d32; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin: 10px 0;">+ Agregar Mascota</button>
         <div id="formularioModulo"></div>
       `;
 
@@ -543,6 +217,8 @@ verificarAdministrador();
       const contenedor = obtenerContenedor();
       contenedor.innerHTML = "<p>⏳ Cargando servicios...</p>";
 
+      if (!supabase) return mostrarError(contenedor, "Supabase no se ha inicializado.");
+
       const { data: servicios, error } = await supabase.from('servicios').select('*');
       if (error) return mostrarError(contenedor, error.message);
 
@@ -562,6 +238,8 @@ verificarAdministrador();
     async function abrirCuidadores() {
       const contenedor = obtenerContenedor();
       contenedor.innerHTML = "<p>⏳ Cargando cuidadores...</p>";
+
+      if (!supabase) return mostrarError(contenedor, "Supabase no se ha inicializado.");
 
       const { data: cuidadores, error } = await supabase.from('profiles').select('*');
       if (error) return mostrarError(contenedor, error.message);
@@ -583,6 +261,8 @@ verificarAdministrador();
       const contenedor = obtenerContenedor();
       contenedor.innerHTML = "<p>⏳ Cargando mensajes...</p>";
 
+      if (!supabase) return mostrarError(contenedor, "Supabase no se ha inicializado.");
+
       const { data: mensajes, error } = await supabase.from('mensajes').select('*');
       if (error) return mostrarError(contenedor, error.message);
 
@@ -598,4 +278,8 @@ verificarAdministrador();
       }
       contenedor.innerHTML = html;
     }
-</script>
+  </script>
+</body>
+</html>
+
+          
