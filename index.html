@@ -282,4 +282,54 @@
 </body>
 </html>
 
-          
+     <div id="resultado" style="margin: 20px auto; max-width: 500px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none;"></div>
+
+<script>
+  const SUPABASE_URL = "https://aahvlspsndedmsllceze.supabase.co"; 
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhaHZsc3BzbmRlZG1zbGxjZXplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwMzUzNzUsImV4cCI6MjA1NTYxMTM3NX0.B_HInX_BvIsbYvR0e0gVz6Z8S6O-X7874g7M6R76O4Q"; 
+  
+  // Inicialización limpia
+  const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+  async function cargarModulo(nombreTabla, titulo) {
+    const resDiv = document.getElementById("resultado");
+    resDiv.style.display = "block";
+    resDiv.innerHTML = `<p>⏳ Consultando ${titulo}...</p>`;
+    resDiv.scrollIntoView({ behavior: "smooth" });
+
+    if (!supabase) {
+      resDiv.innerHTML = `<p style="color:red;">❌ La librería de Supabase no ha cargado.</p>`;
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.from(nombreTabla).select('*');
+      
+      if (error) {
+        resDiv.innerHTML = `<p style="color:red;">❌ Error de Supabase: ${error.message}</p>`;
+        return;
+      }
+
+      let html = `<h3>${titulo}</h3>`;
+      if (!data || data.length === 0) {
+        html += `<p>No hay datos registrados en <strong>${nombreTabla}</strong>.</p>`;
+      } else {
+        html += "<ul>";
+        data.forEach(item => {
+          html += `<li>${JSON.stringify(item)}</li>`;
+        });
+        html += "</ul>";
+      }
+      resDiv.innerHTML = html;
+    } catch (err) {
+      resDiv.innerHTML = `<p style="color:red;">❌ Error inesperado: ${err.message}</p>`;
+    }
+  }
+
+  // Funciones asignadas a los botones
+  function abrirMisMascotas() { cargarModulo('mascotas', '🐾 Mis Mascotas'); }
+  function abrirServicios() { cargarModulo('servicios', '🩺 Servicios'); }
+  function abrirCuidadores() { cargarModulo('profiles', '❤️ Cuidadores'); }
+  function abrirMensajes() { cargarModulo('mensajes', '💬 Mensajes'); }
+</script>
+     
